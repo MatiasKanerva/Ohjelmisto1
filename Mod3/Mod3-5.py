@@ -11,6 +11,7 @@ LuoditG = LuotiMassa * LuodiKPL
 NaulatG = NaulaMassa * NaulaKPL
 LeiviskäG = LeiviskäMassa * LeiviskäKPL
 
-Gramma = LuoditG + NaulatG + LeiviskäG
-Kilo = round(Gramma / 1000, 1)
+Yhteensä = LuoditG + NaulatG + LeiviskäG
+Gramma = round(Yhteensä % 1000,2)
+Kilo = Yhteensä // 1000
 print("Massa nykymittojen mukaan:\n", Kilo, " Kilogrammaa ja ", Gramma, " grammaa.")
