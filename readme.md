@@ -4,11 +4,18 @@ X = Kesken
 
 **Matias Kanerva**
 
-Projekti 1
-    Valmis
+# Projekti 1
+    1* Valmis
+    2* Valmis
 
-Projekti 2
-    Valmis
+# Projekti 2
+    1* Valmis
+    2* Valmis
+
+# Projekti 3
+    1* X
+    2* X
+    3* X
 
 ## Moduuli 3
     Tehdyt tehtävät: 1, 2, 3, 4, 5, 6.
