@@ -17,7 +17,10 @@ Projekti 2
     Tehdyt tehtävät: 1, 2, 3, 4.
 
 ## Moduuli 5
-    Tehdyt tehtävät: 1, 2, 3, 4, 5, X
+    Tehdyt tehtävät: 1, 2, 3, 4, 5, X.
 
 ## Moduuli 6
-    Tehdyt tehtävät: 1, 2, 3, 4
+    Tehdyt tehtävät: 1, 2, 3, 4.
+
+## Moduuli 7
+    Tehdyt tehtävät: 1, 2, 3, 4, 5, 6.
