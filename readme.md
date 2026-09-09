@@ -13,9 +13,9 @@ X = Kesken
     2* Valmis
 
 # Projekti 3
-    1* X
-    2* X
-    3* X
+    1* Valmis
+    2* Valmis
+    3* Valmis
 
 ## Moduuli 3
     Tehdyt tehtävät: 1, 2, 3, 4, 5, 6.
