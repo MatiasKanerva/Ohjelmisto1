@@ -52,29 +52,27 @@ def Painajainen():
     Nopeus = 0
     HirvionMatka = 5
 
-    Vuoro = input("Heitä noppaa painamalla 1: ")
-    while Vuoro != "":
+    Vuoro = input("Heitä noppaa: ")
+    while Vuoro == "" or Vuoro != "":
         Noppa = random.randint(1,6)
-        print(Noppa)
         if Noppa == 1:
             Nopeus = 1
-            print("Kompastuit! Etenet hitaasti...")
+            print(f"\nHeitit: {Noppa}\nKompastuit! Etenet hitaasti...")
         elif 1 < Noppa < 5:
             Nopeus = 2
-            print("Kävelet reippaasti eteenpäin.")
+            print(f"\nHeitit: {Noppa}\nKävelet reippaasti eteenpäin.")
         elif 4 < Noppa:
             Nopeus = 4
-            print("Juokset täysillä kohti ovea!")
-        HirvionMatka =- 1
+            print(f"\nHeitit: {Noppa}\nJuokset täysillä kohti ovea!")
+        HirvionMatka -= 1
         PelaajanMatka = PelaajanMatka + Nopeus
-        print(f"Matka: {PelaajanMatka}, Nopeus: {Nopeus}")
 
-        if PelaajanMatka >= 15:
-            print("Pääsit painajaisesta pois ja heräät huoneessasi.")
+        if PelaajanMatka >= 13:
+            print("\nPääsit painajaisesta pois ja heräät huoneessasi.")
             return
 
-        if HirvionMatka > 1:
-            print("Peli loppui. Kuolit hirviölle.")
+        if HirvionMatka < 1:
+            print("\nPeli loppui. Kuolit hirviölle.")
             exit()
         Vuoro = input("Heitä noppaa uudelleen painamalla 1: ")
 
