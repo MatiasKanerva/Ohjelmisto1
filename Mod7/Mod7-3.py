@@ -1,9 +1,9 @@
-def Converter():
+def Converter(Bensiini):
     Litra = 3.785
-    Gallon = float(input("Kerro kuinka paljon galoonaa bensaa sinulla on: "))
-    while Gallon > 1:
-        print(f"{Gallon} galloonia on {Gallon * Litra} litraa")
-        Gallon = float(input("Kerro kuinka paljon galoonaa bensaa sinulla on: "))
+    while Bensiini > 1:
+        print(f"{Bensiini} galloonia on {Bensiini * Litra} litraa")
+        Bensiini = float(input("Kerro kuinka paljon galoonaa bensaa sinulla on: "))
     return
 
-Converter()
+Bensiini = float(input("Kerro kuinka paljon galoonaa bensaa sinulla on: "))
+Converter(Bensiini)

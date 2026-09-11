@@ -1,7 +1,4 @@
-Kaikki = []
-Parittomat = []
-
-def Lista():
+def Lista(Kaikki=[],Parittomat=[]):
     Luku = input("Kirjoita numero: ")
     while Luku != "":
         Luku = int(Luku)

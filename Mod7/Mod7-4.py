@@ -1,5 +1,4 @@
-def Calc():
-    Lista = []
+def Calc(Lista=[]):
     summa = 0
     Luku = input("Kirjoita kokonais lukuja: ")
     while Luku != "":
