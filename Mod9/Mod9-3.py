@@ -20,8 +20,10 @@ class Auto:
 
     def Kulje(self, Tuntimäärä):
         self.Tuntimäärä = Tuntimäärä
-        pass
+        self.MatkaKuljettu += self.Nopeus * self.Tuntimäärä
+        print(self.MatkaKuljettu)
 
 Honda = Auto("ABC-123", 142)
 print(f"Rekisteritunnus: {Honda.Rekisteritunnus}\nHuippunopeus: {Honda.Huippunopeus}\nTämän hetkinen nopeus: {Honda.Nopeus} KM/H,\nKilometri mittarin lukema: {Honda.MatkaKuljettu} KM")
 Honda.Kiihdytä(60)
+Honda.Kulje(1.5)
