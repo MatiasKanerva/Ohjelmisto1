@@ -10,12 +10,13 @@ class Item:
         return f"{self.Obj}: {self.Paino}kg"
 
 class Huone:
-    def __init__(self, Nimi:str):
+    def __init__(self, Nimi:str, ID:int):
         self.Nimi = Nimi
+        self.ID = ID
         self.Mahd_Esine: list[Item] = []
 
     def __repr__(self):
-        return f"{self.Nimi}"
+        return f"{self.ID}"
 
 class Pelaaja:
     def __init__(self, Nimi:str, Sijainti: Huone = None):
@@ -27,7 +28,7 @@ class Pelaaja:
         Nimet = [esine.Obj for esine in self.Invi]
         TallennusData = (
             f"Name: {self.Nimi}\n"
-            f"Location: {self.Sijainti.Nimi}\n"
+            f"{self.Sijainti.ID}\n"
             f"Inventory: {', '.join(Nimet)}")
                 
         with open("peliprojekti/Save.txt", "w") as Admin:
@@ -39,30 +40,22 @@ class Pelaaja:
             Rivit = Admin.readlines()
 
         self.Nimi = Rivit[0].strip().split(": ")[1]
-        Sij = Rivit[1].strip().split(": ")[1]
-        if "Bedroom" in Sij:
-            self.Sijainti = Makuuhuone
-        elif "Window" in Sij:
-            self.Sijainti = Ikkuna
-        elif "Front Door" in Sij:
-            self.Sijainti = Etupiha
-        elif "Mainroad" in Sij:
-            self.Sijainti = Katu
-        elif "Forest" in Sij:
-            self.Sijainti = Metsä
-        elif "Cabin" in Sij:
-            self.Sijainti = Mökki
-        elif "School" in Sij:
-            self.Sijainti = Koulu
-        elif "Classroom" in Sij:
-            self.Sijainti = Luokka
-        elif "Alleyway" in Sij:
-            self.Sijainti = Kuja
-        elif "Farm" in Sij:
-            self.Sijainti = Maatila
-        elif "Kennel" in Sij:
-            self.Sijainti = KoiraTarha
-        else: self.Sijainti = Aloitus
+        
+        Huoneet = {"1": Aloitus,
+                   "2": Makuuhuone,
+                   "3": Ikkuna,
+                   "4": Etupiha,
+                   "5": Katu,
+                   "6": Metsä,
+                   "7": Mökki,
+                   "8": Koulu,
+                   "9":Luokka,
+                   "10": Kuja,
+                   "11": Maatila,
+                   "12": KoiraTarha}
+        Idee = Rivit[1].strip()
+        if Idee in Huoneet:
+            self.Sijainti = Huoneet[Idee]
 
         self.Invi = []
         Esineet = {"Bird": Lintu,
@@ -83,9 +76,9 @@ class Pelaaja:
         Invi = Rivit[2].strip().split(": ")
         if len(Invi) > 1 and Invi[1]:
             Esine = Invi[1].split(", ")
-            for ENimi in Esine:
-                if ENimi in Esineet:
-                    InviE = Esineet[ENimi]
+            for i in Esine:
+                if i in Esineet:
+                    InviE = Esineet[i]
                     self.Invi.append(InviE)
                     if InviE.Määrä > 0:
                         InviE.Määrä -= 1
@@ -330,11 +323,15 @@ class Pelaaja:
 
 
             elif self.Sijainti == Mökki:
-                Input = input("1. Pick up Axe\n"
-                              "2. Walk to Forest\n"
-                              "3. Show Inventory\n"
-                              "4. Save & Quit\n")
+                Valikko = ("1. Pick up Axe\n"
+                            "2. Walk to Forest\n"
+                            "3. Show Inventory\n"
+                            "4. Save & Quit\n")
 
+                if Opettaja in self.Invi:
+                    Valikko += "5. Prison the Teacher\n"
+
+                Input = input(Valikko)
                 if Input == "1":
                     if Kirves.Määrä > 0:
                         self.Collect(Kirves)
@@ -350,6 +347,10 @@ class Pelaaja:
                     self.NäytäInventaario()
 
                 elif Input == "4":
+                    Shutdown()
+
+                elif Input == "5":
+                    print("Kidnapper Ending: You locked *Teacher* into a secluded Cabin deep in the forest where no one will hear them\n")
                     Shutdown()
 
 
@@ -374,12 +375,18 @@ class Pelaaja:
 
 
             elif self.Sijainti == Maatila:
-                Input = input("1. Pick up Shotgun\n"
+
+                Valikko = ("1. Pick up Shotgun\n"
                               "2. Pick up Milk\n"
                               "3. Walk to Kennel\n"
                               "4. Walk to Alleyway\n"
                               "5. Show Inventory\n"
                               "6. Save & Quit\n")
+
+                if Sieni in self.Invi and Maito in self.Invi:
+                    Valikko += "7. Poison the Milk\n"
+
+                Input = input(Valikko)
                 
                 if Input == "1":
                     if Haulikko.Määrä > 0:
@@ -409,6 +416,9 @@ class Pelaaja:
                 elif Input == "6":
                     Shutdown()
 
+                elif Input == "7":
+                    print("Sadistic Ending: You poisoned the Milk, the town had a sever sickness.")
+                    Shutdown()
 
             elif self.Sijainti == KoiraTarha:
                 Input = input("1. Pick up Puppy\n"
@@ -424,6 +434,10 @@ class Pelaaja:
                     else: print("Mhehe, stole em all!\n")
 
                 elif Input == "2":
+                    pat += 1
+                    if pat > 3:
+                        print("Dog Ending: You are one with the dogs now\n")
+                        Shutdown()
                     print("You walk up to a dog and start petting their head, squishing their cheeks and scratching their backs\n")
 
                 elif Input == "3":
@@ -458,38 +472,38 @@ def Painajainen():
         Noppa = random.randint(1,6)
         if Noppa == 1:
             Nopeus = 1
-            print(f"\n You threw: {Noppa}\nYou stumbled slowly forward...")
+            print(f"\n You threw: {Noppa}\nYou stumbled slowly forward...\n")
         elif 1 < Noppa < 5:
             Nopeus = 2
-            print(f"\nYou threw: {Noppa}\nYou walk forward in a quick pace")
+            print(f"\nYou threw: {Noppa}\nYou walk forward in a quick pace\n")
         elif 4 < Noppa:
             Nopeus = 4
-            print(f"\nYou threw: {Noppa}\nYou ran forward as fast as you could!")
+            print(f"\nYou threw: {Noppa}\nYou ran forward as fast as you could!\n")
         HirvionMatka -= 1
         PelaajanMatka = PelaajanMatka + Nopeus
 
         if PelaajanMatka >= 13:
-            print("\nYou managed to escape the nightmare, you're awake in your room")
+            print("\nYou managed to escape the nightmare, you're awake in your room\n")
             return
 
         if HirvionMatka < 1:
-            print("\nYou died to the Monster...")
-            exit()
-        Vuoro = input("Throw the dice again to proceed")
+            print("\nBad Ending: You died to the Monster...\n")
+            Pelaaja.Liiku()
+        Vuoro = input("Throw the dice again to proceed\n")
 
 # Huoneiden luonti
-Aloitus = Huone("Aloitus")
-Makuuhuone = Huone("Bedroom")
-Ikkuna = Huone("Window")
-Etupiha = Huone("Front Door")
-Katu = Huone("Mainroad")
-Metsä = Huone("Forest")
-Mökki = Huone("Cabin")
-Koulu = Huone("School")
-Luokka = Huone("Classroom")
-Kuja = Huone("Alleyway")
-Maatila = Huone("Farm")
-KoiraTarha = Huone("Kennel")
+Aloitus = Huone("Aloitus",1)
+Makuuhuone = Huone("Bedroom",2)
+Ikkuna = Huone("Window",3)
+Etupiha = Huone("Front Door",4)
+Katu = Huone("Mainroad",5)
+Metsä = Huone("Forest",6)
+Mökki = Huone("Cabin",7)
+Koulu = Huone("School",8)
+Luokka = Huone("Classroom",9)
+Kuja = Huone("Alleyway",10)
+Maatila = Huone("Farm",11)
+KoiraTarha = Huone("Kennel",12)
 
 # Esineiden luonti
 Lintu = Item("Bird", 0.7, 1)

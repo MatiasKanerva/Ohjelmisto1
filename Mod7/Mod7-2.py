@@ -1,12 +1,14 @@
 import random
 
-def Noppa(Heitto):
-    return Heitto
+def Noppa(Tahko: int):
+    Side = Tahko
+    return Side
 
 Luku = 0
 
-while Luku != Noppa():
+while Luku != :
     Luku = random.randint(1,Noppa())
     print(Luku)
+    Luku += 1
 
-Noppa()
+Noppa(20)
