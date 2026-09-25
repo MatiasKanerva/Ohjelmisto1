@@ -1,14 +1,11 @@
 import random
 
-def Noppa(Tahko: int):
-    Side = Tahko
-    return Side
+def Noppa(Tahkot: int):
+    return random.randint(1,Tahkot)
 
 Luku = 0
+Tahkoja = int(input("Kunka monta tahkoa on nopassa?: "))
 
-while Luku != :
-    Luku = random.randint(1,Noppa())
+while Luku != Tahkoja:
+    Luku = Noppa(Tahkoja)
     print(Luku)
-    Luku += 1
-
-Noppa(20)

@@ -1,13 +1,8 @@
-def Calc(Lista=[]):
+def Calc(Numerot: list):
     summa = 0
-    Luku = input("Kirjoita kokonais lukuja: ")
-    while Luku != "":
-        Luku = int(Luku)
-        Lista.append(Luku)
-        print(Lista, Luku)
-        summa = summa + Luku
-        Luku = input("Kirjoita kokonais lukuja: ")
-    print(f"Summa on: {summa}")
-    return
+    for x in Numerot:
+        summa += x
+    return summa
 
-Calc()
+Tulos = Calc([3,2,3])
+print(f"Summa on: {Tulos}")

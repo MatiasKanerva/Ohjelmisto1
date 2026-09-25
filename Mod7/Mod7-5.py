@@ -1,12 +1,9 @@
-def Lista(Kaikki=[],Parittomat=[]):
-    Luku = input("Kirjoita numero: ")
-    while Luku != "":
-        Luku = int(Luku)
-        Kaikki.append(Luku)
-        if Luku % 2:
-            Parittomat.append(Luku)
-        Luku = input("Kirjoita numero: ")
-    print(f"Kaikki luvut: {Kaikki}\nParittomat luvut {Parittomat}")
-    return
+def Lista(Kaikki: list):
+    for x in Kaikki:
+        if x % 2 == 0:
+            Parilliset.append(x)
+    return Kaikki
 
-Lista()
+Parilliset = []
+lista = Lista([1,2,3,4,5,6,7,8,9,10])
+print(f"Kaikki luvut: {lista}\nParilliset: {Parilliset}")
