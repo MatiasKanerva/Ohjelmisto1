@@ -1,3 +1,4 @@
+import Kartta
 import Game
 
 def Continue():
@@ -6,37 +7,39 @@ def Continue():
 
     Game.Player.Nimi = Rivit[0].strip().split(": ")[1]
     
-    Huoneet = {"1": Game.Aloitus,
-                "2": Game.Makuuhuone,
-                "3": Game.Ikkuna,
-                "4": Game.Etupiha,
-                "5": Game.Katu,
-                "6": Game.Metsä,
-                "7": Game.Mökki,
-                "8": Game.Koulu,
-                "9": Game.Luokka,
-                "10": Game.Kuja,
-                "11": Game.Maatila,
-                "12": Game.KoiraTarha}
-    Idee = Rivit[1].strip()
-    if Idee in Huoneet:
-        Game.Player.Sijainti = Huoneet[Idee]
+    Huoneet = {"1": Kartta.Aloitus,
+                "2": Kartta.Makuuhuone,
+                "3": Kartta.Ikkuna,
+                "4": Kartta.Etupiha,
+                "5": Kartta.Katu,
+                "6": Kartta.Metsä,
+                "7": Kartta.Mökki,
+                "8": Kartta.Koulu,
+                "9": Kartta.Luokka,
+                "10": Kartta.Kuja,
+                "11": Kartta.Maatila,
+                "12": Kartta.KoiraTarha}
+    Huone = Rivit[1].strip().split(": ")
+    IDee = Huone[1]
+
+    if IDee in Huoneet:
+        Game.Player.Sijainti = Huoneet[IDee]
 
     Game.Player.Invi = []
-    Esineet = {"Bird": Game.Lintu,
-        "Glass shard": Game.Lasi,
-        "Flower": Game.Kukka,
-        "Rock": Game.Kivi,
-        "Bug": Game.Bug,
-        "Fly Agaric": Game.Sieni,
-        "Stick": Game.Tikku,
-        "Berry": Game.Marja,
-        "Axe": Game.Kirves,
-        "Teacher": Game.Opettaja,
-        "Rat": Game.Rotta,
-        "Bucket of Milk": Game.Maito,
-        "Shotgun": Game.Haulikko,
-        "Puppy": Game.Pentu}
+    Esineet = {"Bird": Kartta.Lintu,
+        "Glass shard": Kartta.Lasi,
+        "Flower": Kartta.Kukka,
+        "Rock": Kartta.Kivi,
+        "Bug": Kartta.Bug,
+        "Fly Agaric": Kartta.Sieni,
+        "Stick": Kartta.Tikku,
+        "Berry": Kartta.Marja,
+        "Axe": Kartta.Kirves,
+        "Teacher": Kartta.Opettaja,
+        "Rat": Kartta.Rotta,
+        "Bucket of Milk": Kartta.Maito,
+        "Shotgun": Kartta.Haulikko,
+        "Puppy": Kartta.Pentu}
 
     Invi = Rivit[2].strip().split(": ")
     if len(Invi) > 1 and Invi[1]:
