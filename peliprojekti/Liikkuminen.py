@@ -21,24 +21,28 @@ def Start(Pelaaja):
         Pelaaja.Sijainti = Kartta.Makuuhuone
 
     elif Input == "2":
-        Continue.Continue()
+        Continue.Continue(Pelaaja)
         
     elif Input == "3":
-        Save.Save()
+        Save.Save(Pelaaja)
 
+# Esimerkit täällä joka soveltuu kaikkille funktioille
 def Bedroom(Pelaaja):
-    Input = input(f"You are in *{Pelaaja.Sijainti.Nimi}*. Would you like to do?\n"
-                    "1. Sleep in Bed\n"
+    # Antaa pelaajalle valinnan, myös kertoo missä sijainnissa ollaan tällä hetkellä ja kohottaa Itemit ja Huoneet
+    print(f"You are at *{Pelaaja.Sijainti.Nimi}*. What would you like to do?\n")
+    Input = input("1. Sleep in Bed\n"
                     f"2. Walk to *{Kartta.Ikkuna.Nimi}*\n"
                     f"3. Walk to *{Kartta.Etupiha.Nimi}*\n"
                     "\n4. Show Inventory\n"
                     "5. Save & Quit\n")
     
     if Input == "1":
+            # Vie painajaisiin, myöhemmin jos tätä jatketaan tämä painajainen tapahtuisi enemmän sitä vähemmän järkeä pelaajalla on
             print("You went to sleep...\n")
-            Nightmare.Painajainen()
+            Nightmare.Painajainen(Pelaaja)
 
     elif Input == "2":
+        # Vaihtaa pelaajan sijaintia ja Liiku() tekee siirtämisen
         Pelaaja.Sijainti = Kartta.Ikkuna
         print(f"*{Kartta.Lintu.Obj}* flew at your *{Kartta.Ikkuna.Nimi}*, breaking the glass into *{Kartta.Lasi.Obj}* and dying on the spot\n")
         
@@ -51,26 +55,27 @@ def Bedroom(Pelaaja):
         Pelaaja.NäytäInventaario()
 
     elif Input == "5":
-        Save.Save()
+        Save.Save(Pelaaja)
 
 def Window(Pelaaja):
+    print(f"You are at *{Pelaaja.Sijainti.Nimi}*. What would you like to do?\n")
     Input = input(f"1. Pick up *{Kartta.Lintu.Obj}*\n"
                     f"2. Pick up *{Kartta.Lasi.Obj}*\n"
                     f"3. Walk Back to *{Kartta.Makuuhuone.Nimi}*\n"
-                    f"\n4. Show Inventory\n")
+                    f"\n4. Show Inventory\n"
+                    "5. Save & Quit\n")
                     
-    if Input == "1":
-        if Kartta.Lintu in Kartta.Ikkuna.Mahd_Esine:
-            if Kartta.Lintu.Määrä > 0:
-                Kartta.Lintu.Määrä -= 1
-                Pelaaja.Collect(Kartta.Lintu)
-                print(f"*{Kartta.Lintu.Obj}* has been added to your Inventory\n")
-                Pelaaja.Sijainti = Kartta.Makuuhuone
-            else: Kartta.Ikkuna.Mahd_Esine.remove(Kartta.Lintu)
-        else: print("There was only one bird to pick...\n")
+    if Input == "1" and Kartta.Lintu in Kartta.Ikkuna.Mahd_Esine:
+        Pelaaja.Collect(Kartta.Lintu)
+        Kartta.Lintu.Määrä -= 1
+        print(f"*{Kartta.Lintu.Obj}* has been added to your Inventory\n")
+        Pelaaja.Sijainti = Kartta.Makuuhuone
+        if Kartta.Lintu.Määrä == 0:
+            Kartta.Ikkuna.Mahd_Esine.remove(Kartta.Lintu)
+    else: print("There was only one bird to pick...\n")
             
 
-    elif Input == "2":
+    if Input == "2":
         if Kartta.Lasi in Kartta.Ikkuna.Mahd_Esine:
             if Kartta.Lasi.Määrä > 0:
                 Pelaaja.Collect(Kartta.Lasi)
@@ -87,41 +92,33 @@ def Window(Pelaaja):
     elif Input == "4":
         Pelaaja.NäytäInventaario()
 
+    elif Input == "5":
+        Save.Save(Pelaaja)
+
 def Front_Door(Pelaaja):
-    Input = input("1. Pick up flowers\n" \
-                    "2. Pick up a rock\n"
-                    "3. Pick up bugs\n"
-                    "4. Walk to Mainroad\n"
-                    "5. Go Home\n"
+    print(f"You are at *{Pelaaja.Sijainti.Nimi}*. What would you like to do?\n")
+    Input = input(f"1. Pick up *{Kartta.Kuja.Obj}*\n" \
+                    f"2. Pick up *{Kartta.Kivi.Obj}*\n"
+                    f"3. Pick up *{Kartta.Bug.Obj}*\n"
+                    f"4. Walk to *{Kartta.Katu.Nimi}*\n"
+                    f"5. Go back to *{Kartta.Makuuhuone.Nimi}*\n"
                     "\n6. Show Inventory\n"
                     "7. Save & Quit\n")
                     
     if Input == "1":
         if Kartta.Kukka in Kartta.Etupiha.Mahd_Esine:
-            if Kartta.Kukka.Määrä > 0:
-                Pelaaja.Collect(Kartta.Kukka)
-                Kartta.Kukka.Määrä -= 1
-                print(f"*{Kartta.Kukka.Obj}* has been added to your Inventory\n")
-            else: Kartta.Etupiha.Mahd_Esine.remove(Kartta.Kukka)
-        else: print(f"You couldn't find anymore *{Kartta.Kukka.Obj}* in the garden\n")
+            Pelaaja.Collect(Kartta.Kukka)
+            print(f"*{Kartta.Kukka.Obj}* has been added to your Inventory\n")
 
     elif Input == "2":
         if Kartta.Kivi in Kartta.Etupiha.Mahd_Esine:
-            if Kartta.Kivi.Määrä > 0:
-                Pelaaja.Collect(Kartta.Kivi)
-                Kartta.Kivi.Määrä -= 1
-                print(f"*{Kartta.Kivi.Obj}* has been added to your Inventory\n")
-            else: Kartta.Etupiha.Mahd_Esine.remove(Kartta.Kivi)
-        else: print(f"You couldn't find any more *{Kartta.Kivi.Obj}*\n")
+            Pelaaja.Collect(Kartta.Kivi)              
+            print(f"*{Kartta.Kivi.Obj}* has been added to your Inventory\n")
 
     elif Input == "3":
         if Kartta.Bug in Kartta.Etupiha.Mahd_Esine:
-            if Kartta.Bug.Määrä > 0:
-                Pelaaja.Collect(Kartta.Bug)
-                Kartta.Bug.Määrä -= 1
-                print(f"*{Kartta.Bug.Obj}* has been added to your Inventory\n")
-            else: Kartta.Etupiha.Mahd_Esine.remove(Kartta.Bug)
-        else: print(f"You couldn't find any more cool *{Kartta.Bug.Obj}* to pick\n")
+            Pelaaja.Collect(Kartta.Bug)
+            print(f"*{Kartta.Bug.Obj}* has been added to your Inventory\n")
 
     elif Input == "4":
         Pelaaja.Sijainti = Kartta.Katu
@@ -135,9 +132,10 @@ def Front_Door(Pelaaja):
         Pelaaja.NäytäInventaario()
 
     elif Input == "7":
-        Save.Save()
+        Save.Save(Pelaaja)
 
 def Mainroad(Pelaaja):
+    print(f"You are at *{Pelaaja.Sijainti.Nimi}*. What would you like to do?\n")
     Input = input(f"1. Walk to *{Kartta.Koulu.Nimi}*\n"
                     f"2. Explore *{Kartta.Metsä.Nimi}*\n"
                     f"3. Walk to *{Kartta.Kuja.Nimi}*\n"
@@ -160,43 +158,32 @@ def Mainroad(Pelaaja):
         Pelaaja.NäytäInventaario()
 
     elif Input == "5":
-        Save.Save()
+        Save.Save(Pelaaja)
 
 def Forest(Pelaaja):
-    Input = input("1. Pick up Mushrooms\n"
-                    "2. Pick up Sticks\n"
-                    "3. Pick up Berries\n"
-                    "4. Walk to Cabin\n"
-                    "5. Walk to Mainroad\n"
+    print(f"You are at *{Pelaaja.Sijainti.Nimi}*. What would you like to do?\n")
+    Input = input(f"1. Pick up *{Kartta.Sieni.Obj}*\n"
+                    f"2. Pick up *{Kartta.Tikku.Obj}*\n"
+                    f"3. Pick up *{Kartta.Marja.Obj}*\n"
+                    f"4. Walk to *{Kartta.Mökki.Nimi}*\n"
+                    f"5. Walk to *{Kartta.Katu.Nimi}*\n"
                     "\n6. Show Inventory\n"
                     "7. Save & Quit\n")
     
     if Input == "1":
-        if Kartta.Sieni in Kartta.Metsä.Mahd_Esine and Kartta.Sieni.Määrä > 0:
+        if Kartta.Sieni in Kartta.Metsä.Mahd_Esine:
             Pelaaja.Collect(Kartta.Sieni)
-            Kartta.Sieni.Määrä -= 1
             print(f"*{Kartta.Sieni.Obj}* has been added to your Inventory\n")
-            if Kartta.Sieni.Määrä == 0:
-                Kartta.Metsä.Mahd_Esine.remove(Kartta.Sieni)
-        else: print(f"I think you got the whole *{Kartta.Sieni.Obj}* cluster\n")
 
     elif Input == "2":
-        if Kartta.Tikku in Kartta.Metsä.Mahd_Esine and Kartta.Tikku.Määrä > 0:
+        if Kartta.Tikku in Kartta.Metsä.Mahd_Esine:
             Pelaaja.Collect(Kartta.Tikku)
-            Kartta.Tikku.Määrä -= 1
             print(f"*{Kartta.Tikku.Obj}* has been added to your Inventory\n")
-            if Kartta.Tikku.Määrä == 0:
-                Kartta.Metsä.Mahd_Esine.remove(Kartta.Tikku)
-        else: print("You took all the sticks nearby\n")
 
     elif Input == "3":
-        if Kartta.Marja in Kartta.Metsä.Mahd_Esine and Kartta.Marja.Määrä > 0:
+        if Kartta.Marja in Kartta.Metsä.Mahd_Esine:
             Pelaaja.Collect(Kartta.Marja)
-            Kartta.Marja.Määrä -= 1
             print(f"*{Kartta.Marja.Obj}* has been added to your Inventory\n")
-            if Kartta.Marja.Määrä == 0:
-                Kartta.Metsä.Mahd_Esine.remove(Kartta.Marja)
-        else: print("You got all the berries from the bush\n")
 
     elif Input == "4":
         Pelaaja.Sijainti = Kartta.Mökki
@@ -210,11 +197,12 @@ def Forest(Pelaaja):
         Pelaaja.NäytäInventaario()
 
     elif Input == "7":
-        Save.Save()
+        Save.Save(Pelaaja)
 
 def Cabin(Pelaaja):
-    Input = input("1. Pick up Axe\n"
-                    "2. Walk to Forest\n"
+    print(f"You are at *{Pelaaja.Sijainti.Nimi}*. What would you like to do?\n")
+    Input = input(f"1. Pick up *{Kartta.Kirja.Obj}*\n"
+                    f"2. Walk to *{Kartta.Metsä.Nimi}*\n"
                     "\n3. Show Inventory\n"
                     "4. Save & Quit\n")
     if Input == "1":
@@ -234,9 +222,10 @@ def Cabin(Pelaaja):
         Pelaaja.NäytäInventaario()
 
     elif Input == "4":
-        Save.Save()
+        Save.Save(Pelaaja)
 
 def School(Pelaaja):
+    print(f"You are at *{Pelaaja.Sijainti.Nimi}*. What would you like to do?\n")
     Input = input(f"1. Find your *{Kartta.Luokka.Nimi}*\n"
                     f"2. Walk to *{Kartta.Katu.Nimi}*\n"
                     "\n3. Show Inventory\n"
@@ -254,24 +243,31 @@ def School(Pelaaja):
         Pelaaja.NäytäInventaario()
 
     elif Input == "4":
-        Save.Save()
+        Save.Save(Pelaaja)
 
+# Esimerkki jos tietty Itemi on Pelaajan Inventaariossa
+#Scholar ending sijaitsee täällä AKA. 4. Hyvä koulutus!
 def Classroom(Pelaaja):
+    print(f"You are at *{Pelaaja.Sijainti.Nimi}*. What would you like to do?\n")
+    # Laitetaan valikoima listaan jotta voidaan muokata haluttaessa
     Valikko = (f"1. Pick up *{Kartta.Kirja.Obj}*\n"
-                    f"2. Get out of *{Pelaaja.Sijainti.Nimi}*\n"
-                    "\n3. Show Inventory\n"
-                    "4. Save & Quit\n")
-
+                f"2. Get out of *{Pelaaja.Sijainti.Nimi}*\n"
+                "\n3. Show Inventory\n"
+                "4. Save & Quit\n")
+    
+    # Katsoo jos Kirja on Pelaajan inventaariossa ja lisää listalle uuden vaihtoehdon
     if Kartta.Kirja in Pelaaja.Invi:
         Valikko = f"0. Study with *{Kartta.Kirja.Obj}*\n" + Valikko
-        
+
+    # Input vasta uusien valintojen tarkistamisen jälkeen jotta extra valinnat eivät tule esille heti
     Input = input(Valikko)
 
+    # Estää pelaajan pelaajan kirjoittamaan "0" ennen ottamatta kirjaa
     if Input == "0" and Kartta.Kirja in Pelaaja.Invi:
         print("-" * 30)
         print(f"Scholar ending: You study *{Kartta.Kirja.Obj}* and your grades improve\n")
         print("-" * 30)
-        Save.Save()
+        Save.Save(Pelaaja)
     else: print(f"You don't have *{Kartta.Kirja.Obj}* to study with")
                     
     if Input == "1" and Kartta.Kirja not in Pelaaja.Invi:
@@ -291,12 +287,13 @@ def Classroom(Pelaaja):
         Pelaaja.NäytäInventaario()
 
     elif Input == "4":
-        Save.Save()
+        Save.Save(Pelaaja)
 
 def Alleyway(Pelaaja):
-    Input = input("1. Pick up Rat\n"
-                    "2. Walk to Farm\n"
-                    "3. Search Dumpsters\n"
+    print(f"You are at *{Pelaaja.Sijainti.Nimi}*. What would you like to do?\n")
+    Input = input(f"1. Pick up *{Kartta.Rotta.Obj}*\n"
+                    f"2. Walk to *{Kartta.Maatila.Nimi}*\n"
+                    f"3. Search Dumpsters\n"
                     "\n4. Show Inventory\n"
                     "5. Save & Quit\n")
     
@@ -319,11 +316,16 @@ def Alleyway(Pelaaja):
     elif Input == "4":
         Pelaaja.NäytäInventaario()
 
+    elif Input == "5":
+        Save.Save(Pelaaja)
+
+# Farmer ending sijaitsee täällä AKA. 15. Maanpäällinen Elämä
 def Farm(Pelaaja):
-    Valikko = ("1. Pick up Shotgun\n"
-                "2. Pick up Milk\n"
-                "3. Walk to Kennel\n"
-                "4. Walk to Alleyway\n"
+    print(f"You are at *{Pelaaja.Sijainti.Nimi}*. What would you like to do?\n")
+    Valikko = (f"1. Pick up *{Kartta.Haulikko.Obj}*\n"
+                f"2. Pick up *{Kartta.Maito.Obj}*\n"
+                f"3. Walk to *{Kartta.KoiraTarha.Nimi}*\n"
+                f"4. Walk to *{Kartta.Kuja.Nimi}*\n"
                 "\n5. Show Inventory\n"
                 "6. Save & Quit\n")
     
@@ -336,7 +338,7 @@ def Farm(Pelaaja):
         print("-" * 30)
         print("Farmer Ending: You helped the citys agriculture and processing more foods for the people")
         print("-" * 30)
-        Save.Save()
+        Save.Save(Pelaaja)
     else: print(f"You don't have guts to work in the *{Pelaaja.Sijainti.Nimi}*")
 
     if Input == "1":
@@ -369,12 +371,13 @@ def Farm(Pelaaja):
         Pelaaja.NäytäInventaario()
 
     elif Input == "6":
-        Save.Save()
+        Save.Save(Pelaaja)
 
 def Kennel(Pelaaja):
-    Input = input("1. Pick up Puppy\n"
+    print(f"You are at *{Pelaaja.Sijainti.Nimi}*. What would you like to do?\n")
+    Input = input(f"1. Pick up *{Kartta.Pentu.Obj}*\n"
                     "2. Pat a Dog\n"
-                    "3. Walk to Farm\n"
+                    f"3. Walk to *{Kartta.Maatila.Nimi}*\n"
                     "\n4. Show Inventory\n"
                     "5. Save & Quit\n")
     
@@ -398,4 +401,4 @@ def Kennel(Pelaaja):
         Pelaaja.NäytäInventaario()
 
     elif Input == "5":
-        Save.Save()
+        Save.Save(Pelaaja)

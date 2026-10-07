@@ -1,12 +1,17 @@
 import Kartta
-import Game
 
-def Continue():
+def Continue(Pelaaja):
     with open("peliprojekti/Save.txt", "r") as Admin:
         Rivit = Admin.readlines()
 
-    Game.Player.Nimi = Rivit[0].strip().split(": ")[1]
-    
+    # Hakee Pelaajan nimen, järjen ja rahan
+    Pelaaja.Nimi = Rivit[0].strip().split(": ")[1]
+    Pelaaja.Järki = Rivit[3].strip().split(": ")[1]
+    Pelaaja.Raha = Rivit[4].strip().split(": ")[1]
+    Pelaaja.Järki = int(Pelaaja.Järki)
+    Pelaaja.Raha = int(Pelaaja.Raha)
+
+    # Kaikki huoneet ID:n perusteella
     Huoneet = {"1": Kartta.Aloitus,
                 "2": Kartta.Makuuhuone,
                 "3": Kartta.Ikkuna,
@@ -20,12 +25,13 @@ def Continue():
                 "11": Kartta.Maatila,
                 "12": Kartta.KoiraTarha}
     Huone = Rivit[1].strip().split(": ")
+    # Tiedämme jo mikä ID kullakin huoneella on, joten tarvitsemme olion kutsuma nimen eikä annettua nimeä sille
     IDee = Huone[1]
-
     if IDee in Huoneet:
-        Game.Player.Sijainti = Huoneet[IDee]
+        Pelaaja.Sijainti = Huoneet[IDee]
 
-    Game.Player.Invi = []
+    # Sama käy Itemeillä, Tiedämme annetun nimen mutta ei itse olion kutsumanimeä
+    Pelaaja.Invi = []
     Esineet = {"Bird": Kartta.Lintu,
         "Glass shard": Kartta.Lasi,
         "Flower": Kartta.Kukka,
@@ -35,23 +41,28 @@ def Continue():
         "Stick": Kartta.Tikku,
         "Berry": Kartta.Marja,
         "Axe": Kartta.Kirves,
-        "Teacher": Kartta.Opettaja,
+        "Study book": Kartta.Kirja,
         "Rat": Kartta.Rotta,
         "Bucket of Milk": Kartta.Maito,
         "Shotgun": Kartta.Haulikko,
         "Puppy": Kartta.Pentu}
 
     Invi = Rivit[2].strip().split(": ")
+    # Tarkistaa ettei ole tyhjä
     if len(Invi) > 1 and Invi[1]:
         Esine = Invi[1].split(", ")
+        # Erotetaan kaikki itemit pilkulla kun tallennus tiedostossa ne ovat: [Bird: 0.7], [Rock: 1]
         for i in Esine:
+            # Katsoo jokaisen esineen erotettuina ja lisää ne Pelaajan inventaarioon
             if i in Esineet:
                 InviE = Esineet[i]
-                Game.Player.Invi.append(InviE)
+                Pelaaja.Invi.append(InviE)
+                # Pidetään varma ettei esineitä yhtäkkyä synny uudelleen kun jatketaan peliä uudelleen
                 if InviE.Määrä > 0:
                     InviE.Määrä -= 1
 
-    print(f"Loaded {Game.Player.Nimi} at {Game.Player.Sijainti}")
-    Game.Player.NäytäInventaario()
-    Game.Player.Liiku()
+    # Jatketaan peliä normaalisti
+    print(f"Loaded {Pelaaja.Nimi} at {Pelaaja.Sijainti.Nimi} with {Pelaaja.Järki} and {Pelaaja.Raha}€")
+    Pelaaja.NäytäInventaario()
+    Pelaaja.Liiku()
     return

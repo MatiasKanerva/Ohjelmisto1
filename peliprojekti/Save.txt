@@ -1,3 +1,5 @@
-Name: Mat
-11
-Inventory: Fly Agaric, Bucket of Milk
+Name: Jukka
+Farm: 11
+Inventory: Bucket of Milk
+Sanity: 52
+Money: 9

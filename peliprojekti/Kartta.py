@@ -4,6 +4,7 @@ class Item:
         self.Paino = Paino
         self.Määrä = Määrä
 
+    # Tulostaa pelkän Nimen ja Painon eikä Määrää, Pelaajan ei tarvitse tietää summaa tallennus tiedostossa.
     def __repr__(self):
         return f"{self.Obj}: {self.Paino}kg"
 
@@ -13,6 +14,7 @@ class Huone:
         self.ID = ID
         self.Mahd_Esine: list[Item] = []
 
+    # Tulostaa pelkän Nimen ja ID eikä Mahdollista Esinettä, emme halua että pelaaja näkee sitä tallennus tiedostossa.
     def __repr__(self):
         return f"{self.Nimi}: {self.ID}"
     

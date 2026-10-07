@@ -7,48 +7,37 @@ class Pelaaja:
         self.Nimi = Nimi
         self.Sijainti = Sijainti
         self.Invi: list[Kartta.Item] = []
+
+        # Pelaajan "Health point"
         self.Järki = 100
         self.Raha = 5
 
+    # Tämä siirtää pelaajan huoneesta huoneeseen
     def Liiku(self):
+        # Kaikki huoneet Joukossa jotta ei tarvitsisi laittaa kaikkia putkeen elif muodossa
+        Huoneet = {
+            Kartta.Aloitus: Liikkuminen.Start,
+            Kartta.Makuuhuone: Liikkuminen.Bedroom,
+            Kartta.Ikkuna: Liikkuminen.Window,
+            Kartta.Etupiha: Liikkuminen.Front_Door,
+            Kartta.Katu: Liikkuminen.Mainroad,
+            Kartta.Koulu: Liikkuminen.School,
+            Kartta.Luokka: Liikkuminen.Classroom,
+            Kartta.Metsä: Liikkuminen.Forest,
+            Kartta.Mökki: Liikkuminen.Cabin,
+            Kartta.Kuja: Liikkuminen.Alleyway,
+            Kartta.Maatila: Liikkuminen.Farm,
+            Kartta.KoiraTarha: Liikkuminen.Kennel
+    }
+
+        # Sijoittaa pelaajan sijainnin ja liikuttaa sen oikeaan huoneeseen listasta
         while True:
-            if self.Sijainti == Kartta.Aloitus:
-                Liikkuminen.Start(self)
+            Siirry = Huoneet.get(self.Sijainti)
+            if Siirry:
+                Siirry(self)
 
-            elif self.Sijainti == Kartta.Makuuhuone:
-                Liikkuminen.Bedroom(self)
-            
-            elif self.Sijainti == Kartta.Ikkuna:
-                Liikkuminen.Window(self)
 
-            elif self.Sijainti == Kartta.Etupiha:
-                Liikkuminen.Front_Door(self)
-
-            elif self.Sijainti == Kartta.Katu:
-                Liikkuminen.Mainroad(self)
-
-            elif self.Sijainti == Kartta.Koulu:
-                Liikkuminen.School(self)
-
-            elif self.Sijainti == Kartta.Luokka:
-                Liikkuminen.Classroom(self)
-
-            elif self.Sijainti == Kartta.Metsä:
-                Liikkuminen.Forest(self)  
-
-            elif self.Sijainti == Kartta.Mökki:
-                Liikkuminen.Cabin(self)
-
-            elif self.Sijainti == Kartta.Kuja:
-                Liikkuminen.Alleyway(self)
-
-            elif self.Sijainti == Kartta.Maatila:
-                Liikkuminen.Farm(self)
-
-            elif self.Sijainti == Kartta.KoiraTarha:
-                Liikkuminen.Kennel(self)
-
-    # Etsiä sijainnista 
+    # Etsiä sijainnista variableja, tällä hetkellä käytössä kujalla mutta voi lisätä useampia
     def Search(self, Paikka):
         Paikka = self.Sijainti
         if Paikka == Kartta.Kuja:
@@ -58,14 +47,14 @@ class Pelaaja:
                 self.Raha += Lisä
                 print(f"You found {Lisä}€, you now have {self.Raha}€\n")
             elif Chance == 2:
-                JärkiC = self.Järki
-                self.Järki += random.randint(-5,3)
-                if JärkiC > self.Järki:
-                    print(f"You saw something you shouldn't have. It stares right back at you. Lost {JärkiC} Sanity\n")
-                else: print(f"You found something cool, but can't take with you. Gained {JärkiC} Sanity\n")
+                JärkiRand = random.randint(-5,3)
+                self.Järki += JärkiRand
+                if JärkiRand < 0:
+                    print(f"You saw something you shouldn't have. It stares right back at you. Lost {JärkiRand} Sanity\n")
+                else: print(f"You found something cool, but can't take with you. {JärkiRand} Sanity\n")
             else: print("You found nothing\n")
 
-    # Kerätä Itemi Pelaajan inventaarioon
+    # Kerää Itemin Pelaajan inventaarioon
     def Collect(self, Esine: Kartta.Item):
         self.Invi.append(Esine)
 
@@ -81,13 +70,5 @@ with open("peliprojekti/Intro.txt", "r") as ITied:
     Intro = ITied.read()
 print(f"{Ohje}\n{Intro}")
 
-# Pelin alkaminen
 Player = Pelaaja("", Kartta.Aloitus)
-
-try:
-    import Liikkuminen
-    print("Liikkumisesta löytyvät funktiot:", [x for x in dir(Liikkuminen) if not x.startswith("__")])
-except Exception as e:
-    print("Virhe Liikkuminen.py lennossa:", e)
-    
 Player.Liiku()
