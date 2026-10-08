@@ -97,7 +97,7 @@ def Window(Pelaaja):
 
 def Front_Door(Pelaaja):
     print(f"You are at *{Pelaaja.Sijainti.Nimi}*. What would you like to do?\n")
-    Input = input(f"1. Pick up *{Kartta.Kuja.Obj}*\n" \
+    Input = input(f"1. Pick up *{Kartta.Kukka.Obj}*\n"
                     f"2. Pick up *{Kartta.Kivi.Obj}*\n"
                     f"3. Pick up *{Kartta.Bug.Obj}*\n"
                     f"4. Walk to *{Kartta.Katu.Nimi}*\n"
@@ -139,8 +139,9 @@ def Mainroad(Pelaaja):
     Input = input(f"1. Walk to *{Kartta.Koulu.Nimi}*\n"
                     f"2. Explore *{Kartta.Metsä.Nimi}*\n"
                     f"3. Walk to *{Kartta.Kuja.Nimi}*\n"
-                    "\n4. Show Inventory\n"
-                    "5. Save & Quit\n")
+                    f"4. Walk to *{Kartta.Etupiha.Nimi}\n*"
+                    "\n5. Show Inventory\n"
+                    "6. Save & Quit\n")
                     
     if Input == "1":
         Pelaaja.Sijainti = Kartta.Koulu
@@ -155,9 +156,13 @@ def Mainroad(Pelaaja):
         print(f"You walked into the gloomy and wet *{Pelaaja.Sijainti.Nimi}*\n")
 
     elif Input == "4":
-        Pelaaja.NäytäInventaario()
+            Pelaaja.Sijainti = Kartta.Etupiha
+            print(f"You walked to *{Pelaaja.Sijainti.Nimi}*\n")
 
     elif Input == "5":
+        Pelaaja.NäytäInventaario()
+
+    elif Input == "6":
         Save.Save(Pelaaja)
 
 def Forest(Pelaaja):
@@ -293,9 +298,10 @@ def Alleyway(Pelaaja):
     print(f"You are at *{Pelaaja.Sijainti.Nimi}*. What would you like to do?\n")
     Input = input(f"1. Pick up *{Kartta.Rotta.Obj}*\n"
                     f"2. Walk to *{Kartta.Maatila.Nimi}*\n"
-                    f"3. Search Dumpsters\n"
-                    "\n4. Show Inventory\n"
-                    "5. Save & Quit\n")
+                    f"3. Walk to *{Kartta.Katu.Nimi}*\n"
+                    f"4. Search Dumpsters\n"
+                    "\n5. Show Inventory\n"
+                    "6. Save & Quit\n")
     
     if Input == "1":
         if Kartta.Rotta in Kartta.Kuja.Mahd_Esine and Kartta.Rotta.Määrä > 0:
@@ -311,12 +317,16 @@ def Alleyway(Pelaaja):
         print(f"You walked a long road heading to *{Pelaaja.Sijainti.Nimi}*, I wonder what there will be?\n")
 
     elif Input == "3":
-        Pelaaja.Search(Kartta.Kuja)
+            Pelaaja.Sijainti = Kartta.Katu
+            print(f"Walked to *{Pelaaja.Sijainti.Nimi}*\n")
 
     elif Input == "4":
-        Pelaaja.NäytäInventaario()
+        Pelaaja.Search(Kartta.Kuja)
 
     elif Input == "5":
+        Pelaaja.NäytäInventaario()
+
+    elif Input == "6":
         Save.Save(Pelaaja)
 
 # Farmer ending sijaitsee täällä AKA. 15. Maanpäällinen Elämä

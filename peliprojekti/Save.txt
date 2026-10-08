@@ -1,5 +1,5 @@
 Name: Jukka
-Farm: 11
-Inventory: Bucket of Milk
-Sanity: 52
+Alleyway: 10
+Inventory: Bucket of Milk, Rat
+Sanity: 51
 Money: 9
