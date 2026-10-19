@@ -1,5 +1,5 @@
-Name: Jukka
-Alleyway: 10
-Inventory: Bucket of Milk, Rat
-Sanity: 51
-Money: 9
+Name: juuso
+Classroom: 9
+Inventory: Bird, Glass shard, Flower, Bug, Berry, Berry, Axe, Study book
+Sanity: 100
+Money: 5

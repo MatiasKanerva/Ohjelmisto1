@@ -206,7 +206,7 @@ def Forest(Pelaaja):
 
 def Cabin(Pelaaja):
     print(f"You are at *{Pelaaja.Sijainti.Nimi}*. What would you like to do?\n")
-    Input = input(f"1. Pick up *{Kartta.Kirja.Obj}*\n"
+    Input = input(f"1. Pick up *{Kartta.Kirves.Obj}*\n"
                     f"2. Walk to *{Kartta.Metsä.Nimi}*\n"
                     "\n3. Show Inventory\n"
                     "4. Save & Quit\n")
